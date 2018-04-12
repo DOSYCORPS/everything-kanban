@@ -1,0 +1,35 @@
+{
+  "name": "test-mvc",
+  "version": "1.0.0",
+  "description": "very simple JS MVC web app for ByteByteByte coding hangout.",
+  "main": "index.js",
+  "watch": {
+    "start": {
+      "patterns": [
+        "*"
+      ],
+      "extensions": "js,html,css",
+      "quiet": false
+    }
+  },
+  "scripts": {
+    "start": "node index.js",
+    "watch": "npm-watch",
+    "test": "npm run watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dosyago-coder-0/test-mvc.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dosyago-coder-0/test-mvc/issues"
+  },
+  "homepage": "https://github.com/dosyago-coder-0/test-mvc#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "npm-watch": "^0.3.0"
+  }
+}
