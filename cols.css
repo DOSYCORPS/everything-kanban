@@ -1,13 +1,28 @@
-* {
-  border: 1px solid lime;
+body {
+  margin: 0;
 }
 .cols {
   display: flex;
   justify-content: space-between;
+  box-sizing: border-box;
 }
 .col {
   flex: 1;
   padding: 12.5px;
+  box-sizing: border-box;
+}
+.col header {
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+}
+.col:first-child {
+  margin-left: 25px;
+  padding-left: 0;
+}
+.col:last-child {
+  margin-right: 12.;
+  padding-right: 25px;
 }
 .col:nth-of-type(1) header {
   background-color: #8e6e95;
@@ -21,6 +36,23 @@
 .col:nth-of-type(4) header {
   background-color: #e8741e;
 }
+.arrow {
+  position: absolute;
+}
+.arrow.left {
+  left: 10px;
+}
+.arrow.right {
+  right: 10px;
+}
 .card {
-
+  position: relative;
+  border: 1px solid silver;
+  padding-left: 4rem;
+}
+.col:nth-of-type(1) .arrow.left {
+  display: none;
+}
+.col:nth-of-type(4) .arrow.right {
+  display: none;
 }

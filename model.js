@@ -1,7 +1,7 @@
 "use strict";
 {
   const model = {
-    getCols
+    setCols, getCols, addCard
   };
 
   const startingCols = [
@@ -65,5 +65,16 @@
     }
     const cols = JSON.parse(colsText);
     return cols;
+  }
+
+  function addCard( colName, card ) {
+    const cols = getCols();
+    const col = cols.find( col => col.name == colName );
+    if ( ! col ) {
+      throw new TypeError('No such col' + colName );
+    }
+    console.log(col,cols);
+    col.cards.push(card);
+    setCols(cols);
   }
 }
