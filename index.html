@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset=utf-8>
+<title>1 Tiny Note</title>
+<style>
+  main {
+    display: table;
+    margin: 0 auto;
+  }
+  .centered {
+    text-align: centered;
+  }
+  :root, textarea {
+    font-size: 17px;
+    font-family: sans-serif;
+  }  
+  :root {
+    background-color: #f1e57a;
+  }
+  textarea {
+    width: 85vw;
+    height: 50vh;
+    min-height: 490px;
+    max-width: 448px;
+    
+  }
+</style>
+<main>
+  <h1>My Tiny Notes</h1>
+  <p>Notes are private to your device. Saved in local storage.
+  <p>
+  <textarea id=note data-key></textarea>
+  <p class=centered>
+  <button id=save>Save</button>
+  <ul id=note-list></ul>
+</main> 
+<script>
+  // debugging
+  window.onerror = (...a) => { alert(JSON.stringify(a.slice(0,4))); return true; };
+</script>
+<script>
+  "use strict";
+  // purpose is to encode Unicode
+  // these two functions from: https://stackoverflow.com/a/30106551
+  
+  function enc(str) {
+      return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+          return String.fromCharCode(parseInt(p1, 16))
+      }));
+  }
+  function dec(str='') {
+      str = str.replace(/\s+/g, '');
+      return decodeURIComponent(Array.prototype.map.call(atob(str), function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+      }).join(''));
+  }
+</script>
+<script>
+  const model = {
+    get, set, add_note, clear_all, delete_note, replace_note, key
+  };
+    
+  Object.assign( self, {model});
+  
+  function key() {
+    return `k-${+new Date}-${Math.random()}`;
+  }
+  
+  function clear_all() {
+    if ( confirm() ) {
+      set( [] );
+    }
+  }
+  
+  function get() {
+    const notes = JSON.parse(localStorage.getItem('notes')) || [];
+    return notes.map( ({text,key}) => ({key,text:dec( text )}));
+  }
+  
+  function set( notes ) {
+    localStorage.setItem( 'notes', JSON.stringify( notes.map( ({text,key}) => ({key,text:enc( text )}) ) ) );
+  }
+                         
+  function add_note( text ) {
+    const notes = get();
+    notes.push( {key:key(),text} );
+    set( notes );
+  }
+  
+  function replace_note( text, key ) {
+    const notes = get();
+    const index = notes.findIndex( note => note.key == key );
+    if ( index >= 0 ) {
+      notes[index] = {text,key};
+    } else {
+      notes.push({text,key:model.key()});
+    }
+    set( notes );
+  }
+  
+  function delete_note( key ) {
+    const notes = get();
+    const index = notes.findIndex( note => note.key == key );
+    if ( index >= 0 ) {
+      notes.splice( index, 1 );
+    }
+    set( notes );
+  }
+</script>
+<script>
+  const view = {
+    update, clear, init
+  };
+  
+  Object.assign( self, {view});
+  
+  function init() {
+    clear();
+    update( model.get() );
+  }
+  
+  function update( notes ) {
+    const note_list = document.querySelector('#note-list');
+    const updated_list = create_list( notes );
+    note_list.parentNode.replaceChild( updated_list, note_list );
+  }
+  
+  function clear() {
+    const note_list = document.querySelector('#note-list');
+    note_list.innerHTML = '';
+  }
+  
+  function create_list( notes ) {
+    const html = `<ul id=note-list>${
+      notes.map( note => `<li data-key=${note.key} data-text="${enc(note.text)}">${summarise(note.text)}
+        <button id=read>Read</button>
+        <button id=edit>Edit</button>
+        <button id=delete>Delete</button>
+      </li>` ).join('\n') }
+    </ul>`;
+    const list_node = parse_html( html );
+    return list_node;
+  }
+  
+  function parse_html( text, doc_frag = false ) {
+    if ( doc_frag ) {
+      return (new DOMParser).parseFromString(`<template>${text}</template>`,"text/html").head.firstChild.content;
+    } else {
+      const article = document.createElement('article');
+      article.innerHTML = text;
+      return article.firstChild;
+    }
+  }
+  
+  function summarise( note ) {
+    const first_line = note.substr(0, note.indexOf('\n'));
+    const basis = first_line || note;
+    let summary = basis.substr(0,30);
+    if ( basis.length > 30 ) {
+      summary += '...';
+    }
+    return summary;
+  }
+  
+</script>
+<script>
+  const note = document.querySelector('#note');
+  const save = document.querySelector('#save');
+  save.onclick = () => {
+    // purpose is escaping unsafe characters to prevent XSS
+    // might think that's unlikely given that it's local and private
+    // but what if you paste in something that is no good?
+    const value = note.value.replace(/</g, '&lt;');
+    if ( note.dataset.key !== '' ) {
+      const key = note.dataset.key;
+      if ( value.trim().length == 0 ) {
+        model.delete_note( key );
+      } else {
+        model.replace_note( value, key );
+      }
+    } else if ( value.trim().length > 0 ) {
+      model.add_note( value );   
+    }
+    note.value = '';
+    note.dataset.key = '';
+    view.update( model.get() );
+  };
+  document.body.onclick = e => {
+    if ( e.target.matches('#note-list > li #read') ) {
+      const li = e.target.parentElement;
+      const x = window.open();
+      x.document.open();
+      const note = dec(li.dataset.text);
+      x.document.write(`
+        <!DOCTYPE html>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset=utf-8>
+        <title>${summarise(note)}</title>
+        <style>
+          main {
+            display: table;
+            margin: 0 auto;
+            max-width: 80vw;
+          }      
+          pre { white-space: pre-wrap; font-family: sans-serif; }
+          :root {
+            font-size: 17px;
+            font-family: sans-serif;
+            background-color: #f1e57a;
+          }
+         </style>
+         <main><pre>${note}</pre></main>`);
+      x.document.close();  
+    } else if ( e.target.matches('#note-list > li #edit') ) {
+      const li = e.target.parentElement;
+      let value = dec(li.dataset.text);
+      value = value.replace(/&lt;/g, '<' );
+      note.value = value;
+      note.dataset.key = li.dataset.key;
+    } else if ( e.target.matches('#note-list > li #delete') ) {
+      const li = e.target.parentElement;
+      if ( confirm() ) {
+        model.delete_note( li.dataset.key );
+        view.init();
+      }
+    }
+  }
+</script>
+<script>
+  view.init();
+</script>
