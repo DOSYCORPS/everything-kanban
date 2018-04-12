@@ -8,9 +8,10 @@
 
   function init() {
     const cols = model.getCols();
-    const colsHtml = cols.map( col => views.renderCol(col) ).join('\n');
+    const colsHtml = cols.map( col => views.renderCol(col) ).join('\n') + "<button class=undo>Undo</button>";
     const main = document.querySelector('main');
     main.innerHTML = colsHtml;
+
   }
 
   function renderCol(col) {
@@ -27,7 +28,7 @@
           ` ).join('\n') }
         </section>
         <section class=control>
-          <button>+ Add a card</button>
+          <button class=add>+ Add a card</button>
         </section>
       </article>
     `;
