@@ -1,7 +1,7 @@
 "use strict";
 {
   const model = {
-    setCols, getCols, addCard
+    setCols, getCols, addCard, reset
   };
 
   const startingCols = [
@@ -49,6 +49,10 @@
   ];
 
   Object.assign(self, {model});
+
+  function reset() {
+    setCols(startingCols);
+  }
 
   function setCols(cols) {
     localStorage.setItem("cols", JSON.stringify(cols) );

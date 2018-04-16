@@ -9,7 +9,7 @@
   function init() {
     const cols = model.getCols();
     const colsHtml = cols.map( col => views.renderCol(col) ).join('\n');
-    const main = document.querySelector('main');
+    const main = document.querySelector('article.cols');
     main.innerHTML = colsHtml;
   }
 

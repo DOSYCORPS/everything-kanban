@@ -1,9 +1,11 @@
-body {
-  margin: 0;
-  font-family: sans-serif;
+body, main {
   display: flex;
   flex-direction: column;
+  margin: 0;
+  font-family: sans-serif;
   max-height: 100vh;
+  background: #eee;
+  height: 100%;
 }
 .txcent {
   text-align: center;
@@ -61,7 +63,11 @@ body {
 .arrow.right {
   right: 10px;
 }
+header, footer {
+  background: dodgerblue;
+}
 .card {
+  background: white;
   position: relative;
   border: 1px solid silver;
   padding: 0.35rem 2rem;
@@ -80,4 +86,7 @@ body {
 }
 .col:not(:nth-of-type(4)) .delete {
   display: none;
+}
+footer {
+  padding: 12.5px 25px 25px 25px;
 }
