@@ -6,46 +6,43 @@
 
   const startingCols = [
     {
-      name: 'Winnie',
+      name: 'Ideas',
       cards: [
         {
-          text: 'Abc'
-        },
-        {
-          text: 'def'
+          text: 'Come up with some ideas.'
         }
       ]
     },
     {
-      name: 'Honey',
+      name: 'To Do',
       cards: [
         {
-          text: 'Abc'
+          text: 'That side project'
         },
         {
-          text: 'def'
+          text: 'Quit my job'
         }
       ]
     },
     {
-      name: 'Poo',
+      name: 'In Progress',
       cards: [
         {
-          text: 'Abc'
+          text: 'Life. It happens.'
         },
         {
-          text: 'def'
+          text: 'Goals.'
         }
       ]
     },
     {
-      name: 'Mix',
+      name: 'Done',
       cards: [
         {
-          text: 'Abc'
+          text: 'Immaturity.'
         },
         {
-          text: 'def'
+          text: 'Discontent.'
         }
       ]
     }

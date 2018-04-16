@@ -1,10 +1,16 @@
 body {
   margin: 0;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
 }
 .cols {
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
+  flex-grow: 1;
+  overflow-y: auto;
+  flex-wrap: wrap;
 }
 .col {
   flex: 1;
@@ -15,6 +21,7 @@ body {
   height: 30px;
   text-align: center;
   line-height: 30px;
+  color: white;
 }
 .col:first-child {
   margin-left: 25px;
@@ -37,6 +44,8 @@ body {
   background-color: #e8741e;
 }
 .arrow {
+  top: 50%;
+  transform: translate(0,-50%);
   position: absolute;
 }
 .arrow.left {
@@ -48,7 +57,10 @@ body {
 .card {
   position: relative;
   border: 1px solid silver;
-  padding-left: 4rem;
+  padding: 0.35rem 2rem;
+}
+.cards {
+  margin-bottom: 0.5rem;
 }
 .col:nth-of-type(1) .arrow.left {
   display: none;

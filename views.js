@@ -8,10 +8,9 @@
 
   function init() {
     const cols = model.getCols();
-    const colsHtml = cols.map( col => views.renderCol(col) ).join('\n') + "<button class=undo>Undo</button>";
+    const colsHtml = cols.map( col => views.renderCol(col) ).join('\n');
     const main = document.querySelector('main');
     main.innerHTML = colsHtml;
-
   }
 
   function renderCol(col) {
