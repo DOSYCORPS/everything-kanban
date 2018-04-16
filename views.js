@@ -22,6 +22,7 @@
             <article class=card data-text="${card.text}">
               <span class="left arrow">&lt;</span>
               ${card.text}
+              <span class="delete">X</span>
               <span class="right arrow">&gt;</span>
             </article>
           ` ).join('\n') }

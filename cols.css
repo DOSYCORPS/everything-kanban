@@ -3,6 +3,10 @@ body {
   font-family: sans-serif;
   display: flex;
   flex-direction: column;
+  max-height: 100vh;
+}
+.txcent {
+  text-align: center;
 }
 .cols {
   display: flex;
@@ -43,10 +47,13 @@ body {
 .col:nth-of-type(4) header {
   background-color: #e8741e;
 }
-.arrow {
+.arrow, .delete {
   top: 50%;
   transform: translate(0,-50%);
   position: absolute;
+}
+.delete {
+  right: 20px;
 }
 .arrow.left {
   left: 10px;
@@ -58,6 +65,9 @@ body {
   position: relative;
   border: 1px solid silver;
   padding: 0.35rem 2rem;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 .cards {
   margin-bottom: 0.5rem;
@@ -66,5 +76,8 @@ body {
   display: none;
 }
 .col:nth-of-type(4) .arrow.right {
+  display: none;
+}
+.col:not(:nth-of-type(4)) .delete {
   display: none;
 }
