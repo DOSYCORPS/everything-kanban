@@ -56,10 +56,12 @@
         const colIndex = cols.findIndex( c => c.name == col.dataset.name );
         const currentCol = cols[colIndex];
         const card = currentCol.cards[cardIndex];
-        currentCol.cards.splice( cardIndex, 1 );
-        model.setCols(cols);
-        views.init();
-        reverseActions.push( savedCols );
+        if ( confirm(`Delete this Done card: "${card.text}"?`) ) {
+          currentCol.cards.splice( cardIndex, 1 );
+          model.setCols(cols);
+          views.init();
+          reverseActions.push( savedCols );
+        }
       }
     });
   }
