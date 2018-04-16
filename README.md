@@ -1,3 +1,5 @@
-# test-mvc
+# Kanban for all seasons
 
-very simple JS MVC web app for ByteByteByte coding hangout.
+Forgive the faux grandiose ( such words are also ) pretensions of this kanban. 
+Tis but a simple web app. Doing not much at all. 
+Hopefully some find it useful.
